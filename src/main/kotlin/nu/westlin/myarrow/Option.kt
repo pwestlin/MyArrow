@@ -16,12 +16,14 @@ sealed class Option<out A> {
         is Some<A> -> ifSome(a)
     }
 
-    fun <T> map(f: (A) -> T): Option<T> {
-        return when (this) {
-            is Some -> Some(f(a))
-            is None -> None
-        }
-    }
+    fun <B> map(f: (A) -> B): Option<B> =
+      flatMap { a -> Some(f(a)) }
+
+    fun <B> flatMap(f: (A) -> Option<B>): Option<B> =
+      when (this) {
+        is None -> this
+        is Some -> f(a)
+      }
 }
 
 data class Some<A>(val a: A) : Option<A>() {

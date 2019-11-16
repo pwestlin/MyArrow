@@ -65,6 +65,16 @@ internal class OptionTest {
         assertThat(Option.just(94).map { it.toString() }).isEqualTo(Option.just("94"))
     }
 
+    @Test
+    fun `flatMap if empty`() {
+        assertThat(Option.empty<Int>().flatMap { Option.just(it + 4) }).isEqualTo(None)
+    }
+
+    @Test
+    fun `flatMap if not empty`() {
+        assertThat(Option.just(94).flatMap { Option.just("$it is less than 93") }).isEqualTo(Option.just("94 is less than 93"))
+    }
+
     @Nested
     inner class TopLevelFunctions {
 
