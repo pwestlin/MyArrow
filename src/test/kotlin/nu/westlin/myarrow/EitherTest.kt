@@ -85,6 +85,38 @@ internal class EitherTest {
                 assertThat(this.fold({ it }, { it })).isEqualTo("right")
             }
         }
+
+        @Test
+        fun `getOrElse - left`() {
+            assertThat(Left("foo").getOrElse { "bar" }).isEqualTo("bar")
+        }
+
+        @Test
+        fun `getOrElse - right`() {
+            assertThat(Right("foo").getOrElse { "bar" }).isEqualTo("foo")
+        }
+
+        @Test
+        fun `getOrHandle - left`() {
+            assertThat(Left("foo").getOrHandle { "${it}bar" }).isEqualTo("foobar")
+        }
+
+        @Suppress("UNREACHABLE_CODE")
+        @Test
+        fun `getOrHandle - right`() {
+            assertThat(Right("foo").getOrHandle { "$it bar" }).isEqualTo("foo")
+        }
+
+        @Suppress("SENSELESS_COMPARISON")
+        @Test
+        fun `orNull - left`() {
+            assertThat(Left("foo").orNull() as String?).isNull()
+        }
+
+        @Test
+        fun `orNull - right`() {
+            assertThat(Right("foo").getOrElse { "bar" }).isEqualTo("foo")
+        }
     }
 }
 

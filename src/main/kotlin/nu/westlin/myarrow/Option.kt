@@ -24,6 +24,8 @@ sealed class Option<out A> {
         is None -> this
         is Some -> f(a)
       }
+
+    fun orNull(): A? = fold({ null }, ::identity)
 }
 
 data class Some<A>(val a: A) : Option<A>() {
@@ -42,3 +44,4 @@ fun <A> identity(a: A): A = a
 fun <T> Option<T>.getOrElse(default: () -> T): T = fold({ default() }, ::identity)
 
 fun <A> none(): Option<A> = None
+

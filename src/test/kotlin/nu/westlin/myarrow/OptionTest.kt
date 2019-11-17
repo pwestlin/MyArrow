@@ -71,6 +71,16 @@ internal class OptionTest {
     }
 
     @Test
+    fun `orNull if empty`() {
+        assertThat(Option.empty<Int>().orNull()).isNull()
+    }
+
+    @Test
+    fun `orNull if not empty`() {
+        assertThat(Option.just(94).orNull()).isEqualTo(94)
+    }
+
+    @Test
     fun `flatMap if not empty`() {
         assertThat(Option.just(94).flatMap { Option.just("$it is less than 93") }).isEqualTo(Option.just("94 is less than 93"))
     }

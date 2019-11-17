@@ -14,6 +14,8 @@ sealed class Either<out A, out B> {
         is Right -> right(f(b))
     }
 
+    fun orNull(): B? = fold({ null }, ::identity)
+
     companion object {
         fun <L> left(a: L): Either<L, Nothing> = Left(a)
 
@@ -32,3 +34,15 @@ fun <L> Left(a: L): Either<L, Nothing> = Either.left(a)
 
 @Suppress("FunctionName")
 fun <R> Right(b: R): Either<Nothing, R> = Either.right(b)
+
+/*
+fun <B> Either<*, B>.orNull(): B? =
+  getOrElse { null }
+*/
+
+fun <B> Either<*, B>.getOrElse(default: () -> B): B =
+    fold({ default() }, ::identity)
+
+fun <A, B> Either<A, B>.getOrHandle(default: (A) -> B): B =
+    fold({ default(it) }, ::identity)
+
